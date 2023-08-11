@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: rgba(250, 239, 192, 0.1);
+        stroke: #FAEFC0;
+        stroke-width: 1;
+      }
+    </style>
+  </defs>
+  <title>Ativo 7</title>
+  <g id="Camada_2" data-name="Camada 2">
+    <g id="Camada_1-2" data-name="Camada 1">
+      <path class="cls-1" d="M96,64H24L0,32,24,0H96Z"/>
+    </g>
+  </g>
+</svg>

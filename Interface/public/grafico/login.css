@@ -1,0 +1,464 @@
+
+
+.btn-azul {
+  border-color:#46a7f5;
+  background:linear-gradient(to bottom, #86c6f8 5%, #46a7f5 100%);
+  box-shadow:inset 0px 1px 0px 0px #d7ecfd;
+  color:#fff;
+  text-shadow:0px 1px 0px #528009;
+}
+
+.btn-azul:hover {
+  background:linear-gradient(to bottom, #46a7f5 5%, #86c6f8 100%);
+}
+
+.btn-image {
+  width: 90px;
+  height: 90px;
+  background-color: transparent;
+  background-image:url('../img/abrir documento.png');
+  border: transparent
+}
+
+.btn-image:focus {
+    transform: translateY(-1px);
+}
+
+.btn-user-admin {
+  width: 570px;
+  height: 66px;
+  margin-top: -2px;
+  background-color: transparent;
+  background-image:url('../img/login 1 - 1st.png');
+  border: transparent
+}
+
+.btn-button90 {
+  width: 90px;
+  height: 90px;
+  margin-top: 0px;
+  background-color: transparent;
+  background-image:url('../img/login-keyboard-2.svg');
+  border: transparent
+}
+
+.btn-button90:focus {
+  opacity: 0.5;
+}
+
+.input-hidden {
+  width:0px;
+  height:0px;
+  border: none;
+  background-color: transparent;
+  color: transparent;
+  cursor: pointer;
+}
+
+.input-hidden:focus {
+  outline:0;
+}
+
+/* ========== Tela de Entrada de Senha ========== */
+.wrapper {
+    align-items: center;
+    flex-direction: column;
+}
+
+.title {
+    padding-bottom: 0 !important;
+    margin-bottom: 15px !important;
+}
+
+.bevel,
+.content {
+    border-width: 4px;
+    border-color: #F37021;
+}
+
+.bvc .tr,
+.bvc .br {
+    border-right-color: transparent;
+}
+
+.bvc .tl,
+.bvc .bl {
+    border-left-color: transparent;
+}
+
+.content {
+    background: #F37021;
+    border-color: transparent;
+    width: 18px !important;
+    height: 10px;
+}
+
+.boxes .svg {
+    background: url('../img/senha oculta 1.svg') no-repeat;
+    width: 26px;
+    height: 26px;
+    padding: 1px;
+    margin: 6px;
+    margin-top: 20px;
+}
+
+.boxes .svg_colored {
+  background: url('../img/senha oculta 2.png') no-repeat;
+  width: 26px;
+  height: 26px;
+  padding: 1px;
+  margin: 6px;
+  margin-top: 20px;
+}
+
+.boxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.keys {
+    margin-top: 40px;
+}
+
+.keys .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+}
+
+.keys .apps {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.keys .svg {
+    background: url('../img/login-keyboard-2.svg') no-repeat;
+    width: 90px;
+    height: 90px;
+    margin: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: transparent
+}
+
+.keys .svg:active {
+    background: url('../img/login-keyboard-2.svg') no-repeat;
+    width: 90px;
+    height: 90px;
+    margin: 6px;
+    opacity: 0.5;
+}
+
+.keys .svg p {
+    font-family: 'Electrolize', Arial, Helvetica, sans-serif;
+    font-size: 50px;
+    margin: 0 !important;
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+    color: #FAEFC0;
+}
+
+.erase {
+    width: 110px;
+    height: 110px;
+    margin: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.svg-erase {
+  background:url('../img/login-keyboard-3.svg') no-repeat;
+  width: 75px;
+  height: 50px;
+  margin: 13.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  background-color: transparent;
+  border: transparent
+}
+
+.svg-erase:active {
+  background:url('../img/login-keyboard-3.svg') no-repeat;
+  width: 75px;
+  height: 50px;
+  margin: 13.5px;
+  opacity: 0.5;
+}
+
+.svg-erase p {
+    font-family: 'Coda', Arial, Helvetica, sans-serif;
+    font-size: 35px;
+    color: #FAEFC0;
+    margin: 0 !important;
+    margin-top: 3px !important;
+    margin-left: 10px !important;
+}
+
+.keys a {
+    height: 100%;
+    cursor: pointer;
+}
+
+/*-----------------------*/
+
+.start {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.start_button {
+  animation: fadein 3s;
+  width: 75px;
+  height: 81px;
+  background-image: url('../img/modal-1.svg');
+  background-size: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: transparent;
+}
+
+@keyframes fadein{
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.start .column{
+  display: flex;
+  flex-direction: column;
+}
+
+.start .row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.start .logo_loading {
+  width: 605px;
+  height: 410px;
+  background-image: url('../img/logo_tramontina.png');
+  background-size: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: transparent;
+}
+
+.start .logo_loading {
+  width: 238px;
+  height: 165px;
+  /*background-image: url('../img/escudo 1.svg');*/
+  background-size: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: transparent;
+  animation: logo_loading 2s infinite step-end;
+}
+
+@keyframes logo_loading {
+    0% {
+        background: url('../img/escudo 1.svg') no-repeat;}
+    33% {
+        background: url('../img/escudo 2.svg') no-repeat;}
+    66% {
+        background: url('../img/escudo 3.svg') no-repeat;}
+}
+
+.start .logo_smartsystem {
+  width: 667px;
+  height: 159px;
+  margin-top: 50px;
+  background-image: url('../img/smart system logo.svg');
+  background-size: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: transparent;
+}
+
+.start p{
+  font-family: 'Coda', Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  color: #FAEFC0;
+  text-align: center;
+}
+
+.start .loading_circle {
+  animation: is-rotating 1.5s linear infinite;
+  border: 6px solid #FAEFC0;
+  border-radius: 50%;
+  border-top-color: #F37021;
+  background-color: transparent;
+  height: 40px;
+  width: 40px;
+}
+
+.start .loading-box{
+  position: relative;
+  width: 240px;
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid #FAEFC0;
+  background: #FAEFC0;
+  overflow: hidden;
+}
+
+.start .loader{
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #F8C080, #F37021);
+  left: -100%;
+  animation: load 2s linear infinite;
+}
+
+@keyframes load{
+  0%{
+      left: -100%;
+  }
+  100%{
+      left: 100%;
+  }
+}
+
+.userlist {
+  width: 511px;
+  height: 513px;
+  background: transparent;
+  border: 1px solid #FAEFC0;
+  align-items: left;
+  flex-direction: column;
+  margin: auto;
+}
+
+.userlist .scroll {
+  width: 510px;
+  height:512px;
+  margin-top: 0px;
+  overflow:auto;
+  background: transparent;
+  border: transparent;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  overflow-x: hidden; /*Desabilita scrollbar horizontal*/
+}
+
+.userlist .scroll::-webkit-scrollbar {
+  width: 15px;
+}
+.userlist .scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border: 1px solid #FAEFC0;
+  border-top: none;
+}
+.userlist .scroll::-webkit-scrollbar-thumb {
+  background-color: #FAEFC0;
+  border-radius: 0px;
+  border: 3px solid transparent;
+}
+
+.btn-user {
+  width: 513px;
+  height: 66.5px;
+  /*border: 1px solid #FAEFC0;*/
+  margin-top: -0.5%;
+  margin-left: -0.5%;
+  background:url('../img/login 1 -2nd 1.png');
+  background-repeat: no-repeat;
+  background-position: left middle;
+  background-size: 100%;
+}
+
+.btn-user:focus {
+  width: 513px;
+  height: 66.5px;
+  margin-top: -0.5%;
+  margin-left: -0.5%;
+  background:url('../img/login 1 -2nd 1.png');
+  background-repeat: no-repeat;
+  background-position: left middle;
+  background-size: 100%;
+  opacity: 0.5;
+}
+
+.btn-admin {
+  width: 513px;
+  height: 66.5px;
+  /*border: 1px solid #FAEFC0;*/
+  margin-top: -0.5%;
+  margin-left: -0.5%;
+  background:url('../img/login 1 - 2nd 2.png');
+  background-repeat: no-repeat;
+  background-position: left middle;
+  background-size: 100%;
+}
+
+.btn-admin:focus {
+  width: 513px;
+  height: 66.5px;
+  margin-top: -0.5%;
+  margin-left: -0.5%;
+  background:url('../img/login 1 - 2nd 2.png');
+  background-repeat: no-repeat;
+  background-position: left middle;
+  background-size: 100%;
+  opacity: 0.5;
+}
+
+.btn-deletaSenha:focus {
+  opacity: 0.5;
+}
+
+.img-senha1 {
+  width: 26px;
+  height: 26px;
+  background-color: transparent;
+  background-image:url('../img/senha oculta 1.svg');
+  border: transparent
+}
+
+.img-senha2 {
+  width: 26px;
+  height: 26px;
+  background-color: transparent;
+  background-image:url('../img/senha oculta 2.png');
+  border: transparent
+}
+
+.bg {
+    /* width: 57%; */
+    width: 100%;
+    background: url('../img/fundo-2.png') no-repeat;
+    background-size: 100%;
+    margin-left: 0px;
+}
+
+.cabinet {
+    /* width: 57%; */
+    width: 337px;
+    height: 381px;
+    background-color: transparent;
+    background-image: url('../img/cabinet.png');
+    background-size: 100%;
+    margin-left: 0px;
+}

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/grafico/user.css">
+  <div id="frame-head">
+    <div class="head-left">
+      <a href="/usuarios/main"><button class="btn_home"></button></a>
+    </div>
+    <div class="head-right">
+      <a href="/usuarios/teladesligar"><button class="btn_shutdown"></button></a>
+    </div>
+  </div>
+</head>
+<body>
+  <div class="page-user" id="frame-main">
+      <div class="cabinet_user">
+        <div style="margin-top:130px">
+       <div id="gav1" class="gaveta_button">
+          <a href="/usuarios/gaveta1" id="viewgav1" class="button_viewgaveta_hidden" type="button"></a>
+          <button onclick="abreGaveta(1)" id="botgav1" class="button_abregaveta">
+            <p>1</p>
+          </button>
+          <button onclick="exibeRetiradas(1)" style="margin-left: 85px" id="resultgav1" class="button_resultgaveta_hidden"><p id="textgav1"></p></button>
+        </div>
+        <div id="gav2" class="gaveta_button">
+          <a href="/usuarios/gaveta2" id="viewgav2" class="button_viewgaveta_hidden" type="button"></a>
+          <button onclick="abreGaveta(2)" id="botgav2" class="button_abregaveta">
+            <p>2</p>
+          </button>
+          <button onclick="exibeRetiradas(2)" style="margin-left: 85px" id="resultgav2" class="button_resultgaveta_hidden"><p id="textgav2"></p></button>
+        </div>
+        <div id="gav3" class="gaveta_button">
+          <a href="/usuarios/gaveta3" id="viewgav3" class="button_viewgaveta_hidden" type="button"></a>
+          <button onclick="abreGaveta(3)" id="botgav3" class="button_abregaveta">
+            <p>3</p>
+          </button>
+          <button onclick="exibeRetiradas(3)" style="margin-left: 85px" id="resultgav3" class="button_resultgaveta_hidden"><p id="textgav3"></p></button>
+        </div>
+        <div id="gav4" class="gaveta_button">
+          <a href="/usuarios/gaveta4" id="viewgav4" class="button_viewgaveta_hidden" type="button"></a>
+          <button onclick="abreGaveta(4)" id="botgav4" class="button_abregaveta">
+            <p>4</p>
+          </button>
+          <button onclick="exibeRetiradas(4)" style="margin-left: 85px" id="resultgav4" class="button_resultgaveta_hidden"><p id="textgav4"></p></button>
+        </div>
+        <div id="gav5" class="gaveta_button">
+          <a href="/usuarios/gaveta5" id="viewgav5" class="button_viewgaveta_hidden" type="button"></a>
+          <button onclick="abreGaveta(5)" id="botgav5" class="button_abregaveta">
+            <p>5</p>
+          </button>
+          <button onclick="exibeRetiradas(5)" style="margin-left: 85px" id="resultgav5" class="button_resultgaveta_hidden"><p id="textgav5"></p></button>
+        </div>
+        <div id="gav6" class="gaveta_button">
+          <a href="/usuarios/gaveta6" id="viewgav6" class="button_viewgaveta_hidden" type="button"></a>
+          <button onclick="abreGaveta(6)" id="botgav6" class="button_abregaveta">
+            <p>6</p>
+          </button>
+          <button onclick="exibeRetiradas(6)" style="margin-left: 85px" id="resultgav6" class="button_resultgaveta_hidden"><p id="textgav6"></p></button>
+        </div>
+        <div id="gav7" class="gaveta_button">
+          <a href="/usuarios/gaveta7" id="viewgav7" class="button_viewgaveta_hidden" type="button"></a>
+          <button onclick="abreGaveta(7)" id="botgav7" class="button_abregaveta">
+            <p>7</p>
+          </button>
+          <button onclick="exibeRetiradas(7)" style="margin-left: 85px" id="resultgav7" class="button_resultgaveta_hidden"><p id="textgav7"></p></button>
+        </div>
+        <div id="gav8" class="gaveta_button">
+            <a href="/usuarios/gaveta8" id="viewgav8" class="button_viewgaveta_hidden" type="button"></a>
+            <button onclick="abreGaveta(8)" id="botgav8" class="button_abregaveta">
+            <p>8</p>
+            </button>
+          <button onclick="exibeRetiradas(8)" style="margin-left: 85px" id="resultgav8" class="button_resultgaveta_hidden"><p id="textgav8"></p></button>
+        </div>
+      </div>
+      </div>
+
+      <div style="flex-direction: column; display:flex; align-items: left">
+        <div class="title" style="margin-top: 10px">Bem vindo, {{usuario.login}}!</div>
+        <form action="/usuarios/tools/buscar" method="POST" autocomplete="off">
+            <div class="apps" style="margin-top: 0px">
+                <div class="first-column">
+                    <div class="search-input" autocomplete="off">
+                      <div>
+                        <div class="img"></div>
+                      </div>
+                      <div>
+                        <input spellcheck="false" class="use-keyboard-input" id="CampoBusca" type="text" name="toolSearch" placeholder="Buscar Ferramenta"></input>
+                      </div>
+                    </div>
+                </div>
+                <div class="second-column">
+                    <button id="buscar" type="submit" class="search-button">
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="apps" style="margin-top: 15px">
+            <div class="apps columns">
+                <a href="/usuarios/composicao"><button class="button_composicao"></button></a>
+                <p>Composição</p>
+            </div>
+            <div class="apps columns">
+                <a href="/usuarios/historico"><button class="button_historico"></button></a>
+                <p>Histórico</p>
+                <p style="margin-top:0px">Completo</p>
+            </div>
+            <div class="apps columns">
+                <a href="/usuarios/usermanual"><button class="button_usermanual"></button></a>
+                <p>Manual</p>
+                <p style="margin-top:0px">de Uso</p>
+            </div>
+            <div class="apps columns">
+                <button id="btnEnviarRelatorio" onclick="enviaRelatorio()" class="button_relatorio" style="display:visible"></button>
+                <div id="enviandoRelatorio" class="btn_relatorio" style="display:none">
+                  <div class='relatorio_loader'></div>
+                </div>
+                <p>Enviar</p>
+                <p style="margin-top:0px">Relatório</p>
+            </div>
+        </div>
+          {{#if admin}}
+              <div class="apps">
+                <div class="apps columns">
+                    <a href="/admin/wifi"><button class="button_wifi"></button></a>
+                    <p>Conexão</p>
+                    <p style="margin-top:0px">Wifi</p>
+                </div>
+                <div class="apps columns">
+                    <a href="/admin/useroptions"><button class="button_usuarios"></button></a>
+                    <p>Usuários</p>
+                </div>
+                <div class="apps columns">
+                    <a href="/admin/options"><button class="button_settings"></button></a>
+                    <p>Opções</p>
+                </div>
+                <div class="apps columns">
+                    <a href="/admin/acessoremoto"><button class="button_remoto"></button></a>
+                    <p>Acesso</p>
+                    <p style="margin-top:0px">Remoto</p>
+                </div>
+              </div>
+              <div class="apps" style="display:none">
+                <div class="apps columns">
+                    <a href="/admin/testes"><button class="button_testes"></button></a>
+                    <p>Testes</p>
+                </div>
+                <!--<div class="apps columns">
+                    <a href="/admin/dateTime"><button class="button_dateTime"></button></a>
+                    <p>Data e Hora</p>
+                </div>-->
+              </div>
+          {{else}}
+            <div class="apps">
+              <div class="historico-resumido" style="margin-left: 10px; margin-top: 15px">
+                <div class="lista-eventos">
+                    <table id='Tabela4'>
+                        <tr style="height:50px">
+                          <td style="border-top: 1px solid #FAEFC0; border-bottom:none">Histórico resumido</td>
+                        </tr>
+                    </table>
+                  <div class="scroll-eventos">
+                    <table id='Tabela4'>
+                      {{#each eventos}}
+                        <tr style="height:40px">
+                          <td style="text-align: left; width: 80%">{{descricao}}</td>
+                          {{#if devolucao}}
+                            <td style="width: 20%; background-color: green; color: #FAEFC0">devolvida</td>
+                          {{else}}
+                            <td style="width: 20%; background-color: red; color: #FAEFC0">retirada</td>
+                          {{/if}}
+                        </tr>
+                      {{else}}
+                        </table>
+                        <div style="font-size:18px; color:#FAEFC0; margin-top:12px" align="center">Nenhum registro</div>
+                      {{/each}}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {{/if}}
+      </div>
+      <div id="demo" style="color:white"></div>
+  </div>
+
+  <dialog id="dialogErroRelatorio" style="background: none; border: transparent">
+    <form method="dialog" >
+      <div class="janela-gavetaTrancada">
+        <div class="contents" style="margin-top: 40px; margin-left: 40px">
+          <div class="error" style="margin-top: 20px"></div>
+          <p id="textFalhaEnviarRelatorio" style="width: 520px"></p>
+        </div>
+        <div class="contents" style="margin-top: 30px; margin-left: 424px">
+          <button class="btns" onclick="fechaErroRelatorio()">
+            <p>OK</p>
+          </button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dialogRelatorioEnviado" style="background: none; border: transparent">
+    <form method="dialog" >
+      <div class="janela-gavetaTrancada">
+        <div class="contents" style="margin-top: 40px; margin-left: 40px">
+          <div class="certo" style="margin-top: 20px"></div>
+          <p style="width: 520px">Relatório enviado com sucesso! Deseja encerrar a sessão?</p>
+        </div>
+        <div class="contents" style="margin-top: 30px; margin-left: 180px">
+          <button class="btns" onclick="realizaLogout()">
+            <p>Sim</p>
+          </button>
+          <button class="btns" onclick="fechaRelatorioEnviado()">
+            <p>Não</p>
+          </button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dialogGVTrancada" style="background: none; border: transparent">
+    <form method="dialog" >
+      <div class="janela-gavetaTrancada">
+        <div class="contents" style="margin-top: 40px; margin-left: 40px">
+          <div class="error" style="margin-top: 20px"></div>
+          <p style="width: 520px">Gaveta trancada, selecione uma ação:</p>
+        </div>
+        <div class="contents" style="margin-top: 30px; margin-left: 180px">
+          <button class="btns" onclick="GvTrancadaAGV()">
+            <p>Abrir</p>
+          </button>
+          <button class="btns" onclick="GvTrancadaFGV()">
+            <p>Fechar</p>
+          </button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dialogFalhaCamera" style="background: none; border: transparent">
+    <form method="dialog" >
+      <div class="janela-gavetaTrancada">
+        <div class="contents" style="margin-top: 40px; margin-left: 40px">
+          <div class="error" style="margin-top: 20px"></div>
+          <p id="textFalhaCameras" style="width: 520px"></p>
+        </div>
+        <div class="contents" style="margin-top: 30px; margin-left: 424px">
+          <button class="btns" onclick="falhaCameraOk()">
+            <p>OK</p>
+          </button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dialogFalhaCapturaImagem" style="background: none; border: transparent">
+    <form method="dialog" >
+      <div class="janela-gavetaTrancada">
+        <div class="contents" style="margin-top: 40px; margin-left: 40px">
+          <div class="alerta" style="margin-top: 20px"></div>
+          <p style="width: 520px">Falha ao gerar a imagem devido a gaveta ter trancado.
+            Abra a gaveta e a feche novamente.</p>
+        </div>
+        <div class="contents" style="margin-top: 30px; margin-left: 424px">
+          <button class="btns" onclick="falhaCapturaImagemOk()">
+            <p>OK</p>
+          </button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <script  src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect();
+    var estadoGV=['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F'];
+    var removidasGV=[0, 0, 0, 0, 0, 0, 0, 0]
+    socket.emit('estadoGavetas');
+    socket.emit('estadoFerramentas');
+
+    //document.getElementById('dialogErroRelatorio').showModal();
+    //document.getElementById('dialogRelatorioEnviado').showModal();
+    //document.getElementById('dialogFalhaCamera').showModal();
+    //document.getElementById('dialogFalhaCapturaImagem').showModal();
+
+    //document.getElementById('dialogGVTrancada').close();
+    //document.getElementById('dialogGVTrancada').showModal();
+    //document.getElementById('frame-main').style.pointerEvents = "auto"
+
+    //Verifica permissão de acesso às gavetas e carrega estados iniciais das gavetas (com botões ocultos)
+    var acessoGavetas = [{{usuario.gv1}}, {{usuario.gv2}}, {{usuario.gv3}}, {{usuario.gv4}}, {{usuario.gv5}}, {{usuario.gv6}}, {{usuario.gv7}}, {{usuario.gv8}}]
+    for (var i=0; i<8; i++){
+      if (acessoGavetas[i]==0){
+        document.getElementById('botgav'+(i+1)).style = "opacity:0.15";
+        document.getElementById('botgav'+(i+1)).disabled=true;
+        document.getElementById("resultgav"+(i+1)).className = "button_resultgaveta_hidden";
+        document.getElementById("viewgav"+(i+1)).className = "button_viewgaveta_hidden";
+      }
+    }
+
+    function enviaRelatorio(){
+      document.getElementById("btnEnviarRelatorio").style = "display:none";
+      document.getElementById("enviandoRelatorio").style = "display:visible";
+      socket.emit('emiteRelatorioCheckout');
+    }
+
+    function fechaErroRelatorio(){
+      document.getElementById('dialogErroRelatorio').close();
+    }
+
+    function fechaRelatorioEnviado(){
+      document.getElementById('dialogRelatorioEnviado').close();
+    }
+
+    function realizaLogout(){
+      window.location = "/usuarios";
+    }
+
+    socket.on('resultadoRelatorioCheckout', function(data){
+      if(data==1){ //Relatório emitido com sucesso
+        document.getElementById('dialogRelatorioEnviado').showModal();
+        document.getElementById("btnEnviarRelatorio").style = "display:visible";
+        document.getElementById("enviandoRelatorio").style = "display:none";
+      }else if(data==2){ //Falha ao emitir relatório - nenhum e-mail cadastrado
+        document.getElementById('dialogErroRelatorio').showModal();
+        document.getElementById("btnEnviarRelatorio").style = "display:visible";
+        document.getElementById("enviandoRelatorio").style = "display:none";
+        document.getElementById('textFalhaEnviarRelatorio').innerHTML = "Não há nenhum e-mail válido cadastrado.";
+      }else{ //Falha ao emitir relatório - erro ao estabelecer conexão de rede
+        document.getElementById('dialogErroRelatorio').showModal();
+        document.getElementById("btnEnviarRelatorio").style = "display:visible";
+        document.getElementById("enviandoRelatorio").style = "display:none";
+        document.getElementById('textFalhaEnviarRelatorio').innerHTML = "Falha ao enviar o relatório, verifique a conexão de rede e tente novamente.";
+      }
+    })
+
+    function GvTrancadaAGV(){
+      document.getElementById('dialogGVTrancada').close();
+      socket.emit('GvTrancadaAGV');
+    }
+
+    function GvTrancadaFGV(){
+      document.getElementById('dialogGVTrancada').close();
+      socket.emit('GvTrancadaFGV');
+    }
+
+    function falhaCameraOk(){
+      document.getElementById('dialogFalhaCamera').close();
+      document.getElementById('textFalhaCameras').innerHTML = "";
+      document.getElementById('frame-main').style.pointerEvents = "auto"
+      document.getElementById('frame-head').style.pointerEvents = "auto"
+      document.getElementById('frame-footer').style.pointerEvents = "auto"
+      location.reload();
+    }
+
+    function falhaCapturaImagemOk(){
+      document.getElementById('dialogFalhaCapturaImagem').close();
+    }
+    
+    function abreGaveta(data){
+      if (estadoGV[data-1]=='A'){
+        socket.emit('fechaGaveta', data);}
+      else{
+        socket.emit('abreGaveta', data);}
+    }
+
+    function exibeRetiradas(data){
+      if (removidasGV[data-1] == 404){
+        document.getElementById('dialogFalhaCapturaImagem').showModal();
+      }
+      else{
+        window.location = "/usuarios/retiradas" + data;
+      }
+    }
+
+    function openCalc(){
+      socket.emit('abreCalculadora');
+    }
+
+    /*function openCalend(){
+      socket.emit('abreCalendario');
+    }*/
+
+    socket.on('bloqueiaInteracaoUsuario', function(){
+      document.getElementById('frame-main').style.pointerEvents = "none"
+      document.getElementById('frame-head').style.pointerEvents = "none"
+      document.getElementById('frame-footer').style.pointerEvents = "none"
+    })
+
+    socket.on('showGvTrancadaFechando', function(data){
+      document.getElementById('gav'+data).className = "gaveta_aberta";
+      document.getElementById('botgav'+data).className = "button_fechagaveta";
+      document.getElementById("resultgav"+data).className = "button_resultgaveta_hidden";
+      document.getElementById("textgav"+data).innerHTML = "";
+ 		});
+      
+    socket.on ('result_GV', function(data){
+      document.getElementById('frame-main').style.pointerEvents = "auto"
+      document.getElementById('frame-head').style.pointerEvents = "auto"
+      document.getElementById('frame-footer').style.pointerEvents = "auto"
+      location.reload();
+      //document.getElementById("btn_reload").click(); //Provisório - recarrega a página para atualizar dados
+      /*if (data>0){
+        document.getElementById("resultgav2").className = "button_resultgaveta";
+        document.getElementById("textgav2").innerHTML = "-" + data;
+      }
+      else{
+        document.getElementById("resultgav2").className = "button_resultgaveta_hidden";
+        document.getElementById("textgav2").innerHTML = "";
+      }*/
+    });
+
+    socket.on('gavetaAberta', function(data){
+      document.getElementById('frame-main').style.pointerEvents = "auto"
+      document.getElementById('frame-head').style.pointerEvents = "auto"
+      document.getElementById('frame-footer').style.pointerEvents = "auto"
+      estadoGV[data-1] = 'A';
+      document.getElementById('gav'+data).className = "gaveta_aberta";
+      document.getElementById('botgav'+data).className = "button_fechagaveta";
+      document.getElementById("resultgav"+data).className = "button_resultgaveta_hidden";
+      document.getElementById("textgav"+data).innerHTML = "";
+ 		});
+
+    socket.on('gavetaFechada', function(data){
+      estadoGV[data-1] = 'F';
+      document.getElementById('gav'+data).className = "gaveta_button";
+      document.getElementById('botgav'+data).className = "c_loader";
+    });
+
+    socket.on('gavetaTrancada', function(data){
+      //alert("Gaveta trancada");
+      document.getElementById('dialogGVTrancada').showModal();
+    });
+
+    socket.on('falhaComunicacaoCamera', function(data){
+      //alert("Gaveta trancada");
+      document.getElementById('dialogFalhaCamera').showModal();
+      if (data==1){
+        document.getElementById('textFalhaCameras').innerHTML = "Falha na câmera 1";
+      }
+      else if (data==2){
+        document.getElementById('textFalhaCameras').innerHTML = "Falha na câmera 2";
+      }
+      else{
+        document.getElementById('textFalhaCameras').innerHTML = "Falha nas duas câmera";
+      }
+    });
+
+    socket.on('estadoGavetas', function(data){
+      for (var i=0; i<8; i++){
+        estadoGV[i] = data[i];
+        if (acessoGavetas[i]==0){}
+        else if (estadoGV[i]=='A'){
+          document.getElementById('gav'+(i+1)).className = "gaveta_aberta";
+          document.getElementById('botgav'+(i+1)).className = "button_fechagaveta";
+          document.getElementById('resultgav'+(i+1)).className = "button_resultgaveta_hidden";
+          document.getElementById('textgav'+(i+1)).innerHTML = "";
+          document.getElementById("viewgav"+(i+1)).className = "button_viewgaveta";}
+        else if (estadoGV[i]=='F'){
+          document.getElementById('gav'+(i+1)).className = "gaveta_button";
+          document.getElementById('botgav'+(i+1)).className = "button_abregaveta";
+          document.getElementById("viewgav"+(i+1)).className = "button_viewgaveta";}
+        else if (estadoGV[i]=='D'){
+          document.getElementById('gav'+(i+1)).className = "gaveta_button";
+          document.getElementById('botgav'+(i+1)).className = "button_abregaveta";
+          document.getElementById("viewgav"+(i+1)).className = "button_viewgaveta";}
+      }
+ 		});
+
+    socket.on('estadoFerramentas', function(data){
+      removidasGV = data;
+      for (var i=0; i<8; i++){
+        if (acessoGavetas[i]==0){
+          document.getElementById('resultgav'+(i+1)).className = "button_resultgaveta_hidden"
+        }
+        else if (data[i]>0 && estadoGV[i]!='A'){
+          if (data[i]==404){
+            document.getElementById('resultgav'+(i+1)).className = "button_resultgaveta";
+            document.getElementById('textgav'+(i+1)).innerHTML = "?";
+          }
+          else{
+            document.getElementById('resultgav'+(i+1)).className = "button_resultgaveta";
+            document.getElementById('textgav'+(i+1)).innerHTML = "-" + data[i];  
+          }          
+        }
+        else{
+          document.getElementById('resultgav'+(i+1)).className = "button_resultgaveta_hidden";
+          document.getElementById('textgav'+(i+1)).innerHTML = "";            
+        }
+      }
+ 		});
+  </script>
+</body>
+<foot>
+  <div class="footer" id="frame-footer">
+    <a href="/usuarios"><button class="btn_logout"></button></a>
+  </div>
+</foot>
+</html>

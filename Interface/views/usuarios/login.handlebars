@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="client.js"></script>
+    <div class="head-right">
+      <a href="/usuarios/teladesligar"><button class="btn_shutdown"></button></a>
+    </div>
+    {{#if error}}
+      <div style="margin-top: -40px" class="alert alert-danger">{{error}}</div>
+    {{/if}}
+  </head>
+  <body>
+    <div class="title">Digite a senha</div>
+    <div align="center">
+      <div class="boxes mt-3">
+        <div id="passkey_1"></div>
+        <div id="passkey_2"></div>
+        <div id="passkey_3"></div>
+        <div id="passkey_4"></div>
+      </div>
+      <div class="keys">
+        <div class="row">
+          <button onclick="insertKey('1')" class="svg">
+            <p>1</p>
+          </button>
+          <button onclick="insertKey('2')" class="svg">
+            <p>2</p>
+          </button>
+          <button onclick="insertKey('3')" class="svg">
+            <p>3</p>
+          </button>
+        </div>
+        <div class="row">
+          <button onclick="insertKey('4')" class="svg">
+            <p>4</p>
+          </button>
+          <button onclick="insertKey('5')" class="svg">
+            <p>5</p>
+          </button>
+          <button onclick="insertKey('6')" class="svg">
+            <p>6</p>
+          </button>
+        </div>
+        <div class="row">
+          <button onclick="insertKey('7')" class="svg">
+            <p>7</p>
+          </button>
+          <button onclick="insertKey('8')" class="svg">
+            <p>8</p>
+          </button>
+          <button onclick="insertKey('9')" class="svg">
+            <p>9</p>
+          </button>
+        </div>
+        <div class="row">
+          <div class="svg" style="background: none"></div>
+          <button onclick="insertKey('0')" class="svg">
+            <p>0</p>
+          </button>
+          <button onclick="removeKey()" class="svg-erase">
+            <p>X</p>
+          </button>
+        </div>
+        <form action="/usuarios/login" method="POST" style="">
+          <input type="hidden" name="login" value="{{login}}"></input>
+          <input id="pass" type="hidden" name="senha"></input>
+          <button id="btn_submit" type="submit" style="background: none; border: transparent" disabled></button>
+        </form>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect();
+      var senha='';
+      document.getElementById("passkey_1").className = 'svg';
+      document.getElementById("passkey_2").className = 'svg';
+      document.getElementById("passkey_3").className = 'svg';
+      document.getElementById("passkey_4").className = 'svg';
+      
+      function insertKey(key){
+        if (senha.length<4)
+        socket.emit('insertKey', key);
+      }
+      
+      function removeKey(){
+        socket.emit('removeKey');
+      }
+
+      socket.on('SenhaAtual', function(data){
+        senha = data;
+        document.getElementById("pass").value = senha;
+        if (senha.length==0){
+          document.getElementById("passkey_1").className = 'svg';
+          document.getElementById("passkey_2").className = 'svg';
+          document.getElementById("passkey_3").className = 'svg';
+          document.getElementById("passkey_4").className = 'svg';
+        }
+        else if (senha.length==1){
+          document.getElementById("passkey_1").className = 'svg_colored';
+          document.getElementById("passkey_2").className = 'svg';
+          document.getElementById("passkey_3").className = 'svg';
+          document.getElementById("passkey_4").className = 'svg';
+        }
+        else if (senha.length==2){
+          document.getElementById("passkey_1").className = 'svg_colored';
+          document.getElementById("passkey_2").className = 'svg_colored';
+          document.getElementById("passkey_3").className = 'svg';
+          document.getElementById("passkey_4").className = 'svg';
+        }
+        else if (senha.length==3){
+          document.getElementById("passkey_1").className = 'svg_colored';
+          document.getElementById("passkey_2").className = 'svg_colored';
+          document.getElementById("passkey_3").className = 'svg_colored';
+          document.getElementById("passkey_4").className = 'svg';
+        }
+        else if (senha.length>=4){
+          document.getElementById("passkey_1").className = 'svg_colored';
+          document.getElementById("passkey_2").className = 'svg_colored';
+          document.getElementById("passkey_3").className = 'svg_colored';
+          document.getElementById("passkey_4").className = 'svg_colored';
+          document.getElementById("btn_submit").disabled=false;
+          document.getElementById("btn_submit").click();
+        }
+      })
+    </script>
+  </body>
+  <foot>
+    <div class="footer">
+      <a href="/usuarios"><button class="btn_return"></button></a>
+    </div>
+  </foot>
+</html>

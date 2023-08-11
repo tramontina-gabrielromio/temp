@@ -1,0 +1,119 @@
+
+<!--<!DOCTYPE html>
+<html>
+  <head>
+    <title>PDF Viewer</title>
+  </head>
+  <body>
+  
+    <div>
+        <iframe src='manual.pdf' width="500" height="678"></iframe>
+    </div>
+
+  </body>
+</html>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/grafico/user.css">
+  <div class="head-left">
+    <a href="/usuarios/main"><button class="btn_home"></button></a>
+  </div>
+  <div class="head-right">
+    <a href="/usuarios/teladesligar"><button class="btn_shutdown"></button></a>
+  </div>
+</head>
+<body>
+  <div class="title">Documentos</div>
+  <div class="page-user" id="frame-main">
+    <div id="exibeDocumentos" style="margin-left: 0px; margin-top: 30px; display: none">
+      <div id="scroll1" class="scroll" style="margin-top: -1px">
+        <div class="imagem_documento" id="paginaDocumento"></div>
+      </div>
+      <div class="page-user" style="margin-top: 33px">
+        <button id="idGaveta_up" onclick="documentoPage_inicial()" class="btn_left"><p><<</p></button>
+        <button id="idGaveta_up" onclick="documentoPage_down()" class="btn_left" style="margin-left:10px"><p><</p></button>
+        <div class="info-column">
+          <p id="identPagina"></p>
+        </div>
+        <button id="idGaveta_down" onclick="documentoPage_up()" class="btn_right" style="margin-left:10px"><p>></p></button>
+        <button id="idGaveta_down" onclick="documentoPage_final()" class="btn_right" style="margin-left:10px"><p>>></p></button>
+      </div>
+    </div>
+    <div id="exibeNaoEncontrado" class="info-column" style="display:none">
+      <p style="margin-top: 280px; width: 400px">Nenhum documento encontrado</p>
+    </div>
+  </div>
+</body>
+<script  src="/socket.io/socket.io.js"></script>
+<script>
+  var pagina = 1
+  var numeroPaginas = contPaginas()
+  
+  function contPaginas(){
+    var http = new XMLHttpRequest();
+    var cont = 0
+    var nPaginas = 0
+    var url = ''
+    let iterable = Array.from({length: 100}, (_, i) => i + 1); //Gera array com 100 números sequenciais
+    for(const value of iterable){ //Garante que a execução do laço seja sequencial
+      url = '../documentos/' + {{documentacao}} + '/' + String(value) + '.png'
+      http.open('HEAD', url, false)
+      http.send()
+      if (http.status == 404)
+        break;
+      else
+        nPaginas = value
+    }
+    if (nPaginas>0){
+      document.getElementById("exibeDocumentos").style = "display:visible";
+      document.getElementById("identPagina").innerHTML = "Página " + String(pagina) + " de " + String(nPaginas)
+      document.getElementById('paginaDocumento').style.backgroundImage = "url('../documentos/" + {{documentacao}} + "/1.png')"
+    }
+    else{
+      document.getElementById("exibeNaoEncontrado").style = "display:visible";
+    }
+    return nPaginas;
+  }
+
+  function documentoPage_up(){
+    if (pagina<numeroPaginas){
+      pagina = pagina+1
+      document.getElementById("scroll1").scrollTop = 0
+      document.getElementById("identPagina").innerHTML = "Página " + String(pagina) + " de " + String(numeroPaginas)
+      document.getElementById('paginaDocumento').style.backgroundImage = "url('../documentos/" + {{documentacao}} + "/" + String(pagina) + ".png')"
+    }
+  }
+
+  function documentoPage_down(){
+    if (pagina>1){
+      pagina = pagina-1
+      document.getElementById("scroll1").scrollTop = 0
+      document.getElementById("identPagina").innerHTML = "Página " + String(pagina) + " de " + String(numeroPaginas)
+      document.getElementById('paginaDocumento').style.backgroundImage = "url('../documentos/" + {{documentacao}} + "/" + String(pagina) + ".png')"
+    }
+  }
+
+  function documentoPage_inicial(){
+    pagina = 1
+    document.getElementById("scroll1").scrollTop = 0
+    document.getElementById("identPagina").innerHTML = "Página " + String(pagina) + " de " + String(numeroPaginas)
+    document.getElementById('paginaDocumento').style.backgroundImage = "url('../documentos/" + {{documentacao}} + "/" + String(pagina) + ".png')"
+  }
+
+  function documentoPage_final(){
+    pagina = numeroPaginas
+    document.getElementById("scroll1").scrollTop = 0
+    document.getElementById("identPagina").innerHTML = "Página " + String(pagina) + " de " + String(numeroPaginas)
+    document.getElementById('paginaDocumento').style.backgroundImage = "url('../documentos/" + {{documentacao}} + "/" + String(pagina) + ".png')"
+  }
+
+</script>
+<foot>
+  <div class="footer">
+    <a href="/usuarios/tools"><button class="btn_return"></button></a>
+    <!--<button class="btn_return" onclick="history.back()"></button>-->
+  </div>
+</foot>
+</html>

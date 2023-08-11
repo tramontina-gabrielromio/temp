@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/grafico/user.css">
+  </head>
+  <body>
+    <div class="bg-confirmacao">
+      <div class="janela-confirmacao">
+        <div class="contents" style="justify-content: center">
+          <p style="font-size: 25px">Encerrar sessão</p>
+        </div>
+        <div class="contents" style="margin-top: 30px; margin-left: -50px">
+          <div style="margin-left: 50px; width: 200px">
+            <a href="/usuarios"><button class="user"></button></a>
+            <p>Alternar usuário</p>
+          </div>
+          <div style="margin-left: 0px; width: 200px">
+            <button class="reiniciar" onclick="reboot()"></button>
+            <p>Reiniciar</p>
+          </div>
+          <div style="margin-left: 0px; width: 200px">
+            <button class="desligar" onclick="shutdown()"></button>
+            <p>Desligar</p>
+          </div>
+        </div>
+        <div class="contents" style="margin-top: 15px; margin-right: 10px; justify-content: right">
+          <button class="btns" onclick="pageReturn()">
+            <p>Cancelar</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <foot>
+  </foot>
+  <script  src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect();
+    function shutdown(){
+      socket.emit('shutdown');
+    }
+    function reboot(){
+      socket.emit('reboot');
+    }
+    function pageReturn(){
+      if (document.referrer=="http://localhost:8081/usuarios/main"
+      || document.referrer=="http://localhost:8081/usuarios/tools"
+      || document.referrer.indexOf("http://localhost:8081/usuarios/gaveta")>-1
+      || document.referrer.indexOf("http://localhost:8081/usuarios/compGaveta")>-1)
+        window.location = document.referrer
+      else 
+        history.back()
+    }
+  </script>
+</html>

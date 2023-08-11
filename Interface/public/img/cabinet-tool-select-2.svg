@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #faefc0;
+      }
+    </style>
+  </defs>
+  <title>Ativo 196</title>
+  <g id="Camada_2" data-name="Camada 2">
+    <g id="Layer_1" data-name="Layer 1">
+      <path class="cls-1" d="M28.5,56h-1V44.49a16.52,16.52,0,0,1-16-16H0v-1H11.51a16.52,16.52,0,0,1,16-16V0h1V11.51a16.52,16.52,0,0,1,16,16H56v1H44.49a16.52,16.52,0,0,1-16,16Zm0-27.5v15a15.52,15.52,0,0,0,15-15Zm-16,0a15.52,15.52,0,0,0,15,15v-15Zm16-1h15a15.52,15.52,0,0,0-15-15Zm-16,0h15v-15A15.52,15.52,0,0,0,12.51,27.5Z"/>
+    </g>
+  </g>
+</svg>

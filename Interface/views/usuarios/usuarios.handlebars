@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <div class="head-right">
+    <a href="/usuarios/teladesligar"><button class="btn_shutdown"></button></a>
+  </div>
+
+    {{#if error}}
+      <div style="margin-top: -40px" class="alert alert-danger">{{error}}</div>
+    {{/if}}
+  </head>
+  <body>
+    <div class="title">Selecione o Login</div>
+    <div>
+      <div class="userlist" style="margin-top:50px">
+        <div class="scroll">
+          {{#each usuarios}}
+            {{#if nivel}}
+            <div>
+              <a href="/usuarios/login/{{login}}"><button class="btn btn-admin" style="color:#FAEFC0; font-size:20px; font-family:Coda">
+                {{login}}
+              </button></a>
+            </div>
+            {{else}}
+            <div>
+              <a href="/usuarios/login/{{login}}"><button class="btn btn-user" style="color:#FAEFC0; font-size:20px; font-family:Coda">
+                {{login}}
+              </button></a>
+            </div>
+            {{/if}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    <form action="/usuarios/loginrfid" method="POST" autocomplete="off">
+      <input class="input-hidden" onkeypress="resetInput()" name="login" id="inputLogin" onblur="this.focus()" autofocus></input>
+          <input id="pass" type="hidden" name="senha" value="0"></input>
+      <button id="btn_submit" type="submit" style="background: none; border: none"></button>
+    </form>
+    <script>
+      if ({{configuracoes.cartao}}==0)
+        document.getElementById("btn_submit").disabled = true;
+
+      function resetInput(){
+        setTimeout(function(){
+          document.getElementById("inputLogin").value = ''}, 250)
+      }
+    </script>
+  </body>
+</html>

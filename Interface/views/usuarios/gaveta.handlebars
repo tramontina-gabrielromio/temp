@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/grafico/user.css">
+  <div id="frame-head">
+    <div class="head-left">
+      <a href="/usuarios/main"><button class="btn_home"></button></a>
+    </div>
+    <div class="head-right">
+      <a href="/usuarios/teladesligar"><button class="btn_shutdown"></button></a>
+    </div>
+  </div>
+</head>
+<body>
+  <div class="page-user" id="frame-main">
+    <div style="margin-left: 100px">
+      <div id="titulo" class="title"></div>
+      <div style="position: relative" id="testeretangulo">
+        <div class="imagem_gaveta" style="background-image: url('../imgTools/Gaveta {{gaveta}}.png')"></div>
+        {{#each arrayPosRemovidas}}
+          <div class="xyFerramenta" style="left:{{left}}px;top:{{top}}px;width:{{width}}px;height:{{height}}px"></div>
+        {{/each}}
+      </div>
+      <div class="page-user" style="margin-top: 33px">
+        <!--<form action="/usuarios/gaveta" method="POST">
+          <input type=hidden name="gav" id="inputGaveta_up"></input>
+          <button id="idGaveta_up" type="submit" class="btn_left"><p><</p></button>
+        </form>-->
+        <div id="gav" class="button-216" style="display: none">
+          <button onclick="abreGaveta({{gaveta}})" id="botgav" class="btn-abregaveta"></button>
+        </div>
+        <!--<form action="/usuarios/gaveta" method="POST">
+          <input type=hidden name="gav" id="inputGaveta_down"></input>
+          <button id="idGaveta_down" type="submit" class="btn_right"><p>></p></button>
+        </form>-->
+      </div>
+    </div>
+    <div style="flex-direction:column; display:flex; margin-left:24px; margin-right:80px; margin-top:55px; align-items:center">
+    <div class="search-table1">
+    <div class="first-column">
+      <div class="userlist-edit" style="width: 432px; height: 590px">
+        <table id='Tabela2-title' style="width: 432px">
+          <tr style="height:38px; border: 1px solid #FAEFC0">
+            <!--<td style="width: 25%; background-color: #202020; color: #FAEFC0">Ref.</td>-->
+            <td style="width: 100%; background-color: #202020; color: #FAEFC0">Ferramentas</td>
+          </tr>
+        </table>
+        <div class="scroll" style="width: 450px; height: 552px; margin-top: -1px">
+          <table id='Tabela2' style="width: 432px">
+            {{#each ferramentas}}
+              <tr>
+              {{#if estado}}
+               <!-- <td style="text-align: left; width: 25%">{{referencia}}</td>-->
+                <td style="text-align: left; width: 100%">{{descricao}}</td>
+              {{else}}
+                <!--<td style="text-align: left; color: red; width: 25%">{{referencia}}</td>-->
+                <td style="text-align: left; color: red; width: 100%">{{descricao}}</td>
+              {{/if}}
+              </tr>
+            {{else}}
+              </table>
+              <h4 style="color:black; margin-top: 20px" align="center">Nenhuma ferramenta</h4>
+            {{/each}}
+          </table>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+
+  <dialog id="dialogGVTrancada" style="background: none; border: transparent">
+    <form method="dialog" >
+      <div class="janela-gavetaTrancada">
+        <div class="contents" style="margin-top: 40px; margin-left: 40px">
+          <div class="error"></div>
+          <p>Gaveta trancada, selecione uma ação:</p>
+        </div>
+        <div class="contents" style="margin-top: 50px; margin-left: 180px">
+          <button class="btns" onclick="GvTrancadaAGV()">
+            <p>Abrir</p>
+          </button>
+          <button class="btns" onclick="GvTrancadaFGV()">
+            <p>Fechar</p>
+          </button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="dialogFalhaCamera" style="background: none; border: transparent">
+    <form method="dialog" >
+      <div class="janela-gavetaTrancada">
+        <div class="contents" style="margin-top: 40px; margin-left: 40px">
+          <div class="error"></div>
+          <p id="textFalhaCameras"></p>
+        </div>
+        <div class="contents" style="margin-top: 50px; margin-left: 424px">
+          <button class="btns" onclick="falhaCameraOk()">
+            <p>OK</p>
+          </button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect();
+  var estadoGV='F';
+  var gavetaAtual = {{gaveta}}
+  var pgRetorno = {{pgBack}}
+  
+  document.getElementById('titulo').innerHTML = "Gaveta " + gavetaAtual;
+
+  socket.emit('estadoGavetas');
+
+  socket.on('estadoGavetas', function(data){
+    var qualquerGvAberta
+    if (data[0]=='A'||data[1]=='A'||data[2]=='A'||data[3]=='A'||data[4]=='A'||data[5]=='A'||data[6]=='A'||data[7]=='A') 
+      qualquerGvAberta = 1
+    else 
+      qualquerGvAberta = 0
+    estadoGV = data[{{gaveta}}-1];
+    if (estadoGV=='A'){
+      document.getElementById('gav').style = "display: visible"
+      document.getElementById('gav').className = "button-216-green";
+      document.getElementById('botgav').className = "btn-fechagaveta";}
+    else if(qualquerGvAberta){
+      document.getElementById('gav').style = "display: none"
+    }
+    else if (estadoGV=='F'){
+      document.getElementById('gav').style = "display: visible"
+      document.getElementById('gav').className = "button-216";
+      document.getElementById('botgav').className = "btn-abregaveta";}
+    else if (estadoGV=='D'){
+      document.getElementById('gav').style = "display: visible"
+      document.getElementById('gav').className = "button-216";
+      document.getElementById('botgav').className = "btn-abregaveta";}
+ 	});
+
+  function abreGaveta(data){
+    if (estadoGV=='F'){
+      socket.emit('abreGaveta', data);}
+    else if (estadoGV=='A'){
+      socket.emit('fechaGaveta', data);}
+  }
+
+  socket.on('bloqueiaInteracaoUsuario', function(){
+      document.getElementById('frame-main').style.pointerEvents = "none"
+      document.getElementById('frame-rodape').style.pointerEvents = "none"
+      document.getElementById('frame-head').style.pointerEvents = "none"
+    })
+
+  socket.on('gavetaAberta', function(data){
+    document.getElementById('frame-main').style.pointerEvents = "auto"
+    document.getElementById('frame-rodape').style.pointerEvents = "auto"
+    document.getElementById('frame-head').style.pointerEvents = "auto"
+    estadoGV = 'A';
+    document.getElementById('gav').className = "button-216-green";
+    document.getElementById('botgav').className = "btn-fechagaveta";
+  });
+
+  socket.on('gavetaFechada', function(data){
+    //document.getElementById('frame-main').style.pointerEvents = "auto"
+    //document.getElementById('frame-rodape').style.pointerEvents = "auto"
+    estadoGV = 'F';
+    document.getElementById('gav').className = "button-216";
+    //document.getElementById('botgav').className = "btn-abregaveta";
+    document.getElementById('botgav').className = "c_loader";
+    //location.reload();
+  });
+
+  //var tabela = document.getElementById("Tabela2");
+  //var linhas = tabela.getElementsByTagName("tr");
+
+  socket.on ('result_GV', function(dados){
+    //document.getElementById("btn_reload").click(); //Recarrega a página para atualizar dados
+    //location.replace("/usuarios/gaveta"+{{gaveta}})
+    location.reload()
+    //for(var indice=0; indice<(dados.length); indice++){
+    //    linhas[indice].classList.toggle("removido");
+    //}
+  });
+
+  var acessoGavetas = [{{usuario.gv1}}, {{usuario.gv2}}, {{usuario.gv3}}, {{usuario.gv4}}, {{usuario.gv5}}, {{usuario.gv6}}, {{usuario.gv7}}, {{usuario.gv8}}]
+
+  function GvTrancadaAGV(){
+    document.getElementById('dialogGVTrancada').close();
+    socket.emit('GvTrancadaAGV');
+  }
+
+  function GvTrancadaFGV(){
+    document.getElementById('dialogGVTrancada').close();
+    socket.emit('GvTrancadaFGV');
+  }
+
+  function falhaCameraOk(){
+    document.getElementById('dialogFalhaCamera').close();
+    document.getElementById('textFalhaCameras').innerHTML = "";
+    document.getElementById('frame-main').style.pointerEvents = "auto"
+    location.reload();
+  }
+
+  socket.on('gavetaTrancada', function(data){
+    //alert("Gaveta trancada");
+    document.getElementById('dialogGVTrancada').showModal();
+  });
+
+  socket.on('falhaComunicacaoCamera', function(data){
+    //alert("Gaveta trancada");
+    document.getElementById('dialogFalhaCamera').showModal();
+    if (data==1){
+      document.getElementById('textFalhaCameras').innerHTML = "Falha na câmera 1";
+    }
+    else if (data==2){
+      document.getElementById('textFalhaCameras').innerHTML = "Falha na câmera 2";
+    }
+    else{
+      document.getElementById('textFalhaCameras').innerHTML = "Falha nas duas câmera";
+    }
+  });
+
+  function pageReturn(){
+    //if (document.referrer=="http://localhost:8081/usuarios/main") window.location = "/usuarios/main"
+    //else history.back()
+    //if('referrer' in document){
+    //  window.location = document.referrer;
+    //}
+    //else{
+    //  history.go(-1)
+    //}
+    //window.location.assign(history.back())
+    if (pgRetorno==0) //Retorna e recarrega a página main
+      window.location = "/usuarios/main"
+    else if (pgRetorno==1) //Retorna e recarrega a página ferramentas
+      window.location = "/usuarios/tools"
+    else //Retorna e recarrega a página composiçao
+      window.location = "/usuarios/composicao"
+  }
+
+</script>
+
+<foot>
+  <div class="footer" id="frame-rodape">
+    <!--<a href="/usuarios/composicao"><button class="btn_return"></button></a>-->
+    <button class="btn_return" onclick="pageReturn()"></button>
+    <!--<button class="btn_return" onclick="history.back()"></button>-->
+  </div>
+</foot>
+</html>

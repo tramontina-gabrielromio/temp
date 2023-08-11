@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/grafico/admin.css">
+    <div class="head-left">
+      <a href="/usuarios/main"><button class="btn_home"></button></a>
+    </div>
+    <div class="head-right">
+      <a href="/usuarios/teladesligar"><button class="btn_shutdown"></button></a>
+    </div>
+  </head>
+  <body>
+    <div class="title">Gaveta específica</div>
+    <div class="bg-testes" style="margin-top: 80px">
+      <div class="row">
+        <p>Gaveta</p>
+          <select id="gavetasel" class="select-gaveta">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
+        <p style="margin-top: 20px">Repetições</p>
+        <div class="rectangle-input" autocomplete="off">
+          <input id="numrepeticoes" class="use-numpad-input" type="text"></input>
+        </div>
+      </div>
+    </div>
+    <div class="bg-testes" style="margin-top: 110px; width: 950px; justify-content: center">
+      <div class="column" style="width: 300px">
+        <p>Timer</p>
+      </div>
+      <div class="column" style="margin-left: 20px; width: 300px">
+        <p>Contador</p>
+      </div>
+    </div>
+    <div class="bg-testes">
+      <div class="column" style="width: 300px">
+        <div class="rectangle-show">
+          <p id="temporizador">0:00:00</p>
+        </div>
+      </div>
+      <div class="column" style="margin-left: 20px; width: 300px">
+        <div class="rectangle-show">
+          <p id="cont-repeticoes">0</p>
+        </div>
+      </div>
+      <div class="column" style="margin-left: 20px">
+        <div class="line"></div>
+      </div>
+      <div class="column" style="margin-left: 20px">
+        <div class="button-108">
+          <button class="download"></button>
+        </div>
+      </div>
+      <div class="column" style="margin-left: 20px">
+        <div class="button-108">
+          <a href="/admin/gvespecificahistorico"><button class="registro"></button></a>
+        </div>
+      </div>
+      <div class="column" style="margin-left: 20px">
+        <div class="line"></div>
+      </div>
+      <div class="column" style="margin-left: 20px">
+        <div class="button-108">
+          <button class="stop" onclick="stop()"></button>
+        </div>
+      </div>
+      <div class="column" style="margin-left: 20px">
+        <div class="button-108">
+          <button id="play-pause" class="play" onclick="start()"></button>
+        </div>
+      </div>
+    </div>
+    <script  src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect();
+      var testeAndamento=0;
+      var contador=0;
+      var segDecorridoTeste=0;
+      var stringTempoDecorrido;
+      document.getElementById("numrepeticoes").value = 0;
+
+      //socket.emit('estadoTestesGVEspecifica')
+      socket.on('estadoTestesGVEspecifica', function(data, cont){
+        testeAndamento = data;
+        contador = cont;
+        document.getElementById("cont-repeticoes").innerHTML = contador;
+        if (testeAndamento==1){
+          document.getElementById("play-pause").className = 'pause';
+          document.getElementById("gavetasel").disabled=true;
+          document.getElementById("numrepeticoes").disabled=true;
+        }
+      })
+
+      socket.on('atualizaContadorTestesGVEspecifica', function(cont){
+        contador = cont;
+        document.getElementById("cont-repeticoes").innerHTML = contador;
+      })
+
+      socket.on('testeFinalizadoGVEspecifica', function(){
+        testeAndamento = 0;
+        segDecorridoTeste = 0;
+        document.getElementById("play-pause").className = 'play';
+        document.getElementById("gavetasel").disabled=false;
+        document.getElementById("numrepeticoes").disabled=false;
+      })
+
+      socket.on('testeFalhouGVEspecifica', function(){
+        testeAndamento = 0;
+        segDecorridoTeste = 0;
+        document.getElementById("play-pause").className = 'play';
+        document.getElementById("gavetasel").disabled=false;
+        document.getElementById("numrepeticoes").disabled=false;
+        alert("O teste falhou!");
+      })
+
+      socket.on('testePausadoGVEspecifica', function(){
+        testeAndamento = 0;
+        document.getElementById("play-pause").className = 'play';
+      })
+
+      socket.on('testeParadoGVEspecifica', function(){
+        testeAndamento = 0;
+        segDecorridoTeste = 0;
+        document.getElementById("play-pause").className = 'play';
+        document.getElementById("gavetasel").disabled=false;
+        document.getElementById("numrepeticoes").disabled=false;
+        document.getElementById("cont-repeticoes").innerHTML = 0;
+        document.getElementById("temporizador").innerHTML = '0:00:00';
+      })
+
+      function start(){
+        if (testeAndamento==0){
+          var gaveta = document.getElementById("gavetasel").value;
+          var repeticoes = document.getElementById("numrepeticoes").value;
+          socket.emit('testegavetaespecifica', gaveta, repeticoes)
+          testeAndamento = 1;
+          document.getElementById("play-pause").className = 'pause';
+          document.getElementById("gavetasel").disabled=true;
+          document.getElementById("numrepeticoes").disabled=true;
+        }
+        else{
+          socket.emit('pausaTesteGVEspecifica')
+        }
+      }
+      
+      function stop(){
+        socket.emit('stopTesteGVEspecifica')
+      }
+
+      //Timer
+      setInterval(function(){
+        if (testeAndamento){
+          var auxString;
+          segDecorridoTeste ++;
+          stringTempoDecorrido = Math.floor(segDecorridoTeste/3600);
+          auxString = Math.floor((segDecorridoTeste%3600)/60);
+          if (auxString < 10){
+            auxString = '0' + auxString;}
+          stringTempoDecorrido = stringTempoDecorrido + ':' + auxString;
+          auxString = Math.floor((segDecorridoTeste%3600)%60)
+          if (auxString < 10){
+            auxString = '0' + auxString;}
+          stringTempoDecorrido = stringTempoDecorrido + ':' + auxString;
+          document.getElementById("temporizador").innerHTML = stringTempoDecorrido;
+          socket.emit("atualizaTempTestesGVEspecifica", segDecorridoTeste);
+        }
+      }, 1000);
+
+    </script>
+  </body>
+  <foot>
+    <div class="footer">
+      <a href="/admin/testes"><button class="btn_return"></button></a>
+    </div>
+  </foot>
+</html>

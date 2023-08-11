@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/grafico/user.css">
+  <div class="head-left">
+    <a href="/usuarios/main"><button class="btn_home"></button></a>
+  </div>
+  <div class="head-right">
+    <a href="/usuarios/teladesligar"><button class="btn_shutdown"></button></a>
+  </div>
+</head>
+<body>
+  <div class="title">Composição</div>
+  <div class="page-composicao" style="margin-top: 50px">
+    <div id="show_gv1" style="margin-top: 0px">
+      <a href="/usuarios/compGaveta1">
+        <button id="btn_gv1" class="imagem_gaveta" style="background-image: url('../imgTools/Gaveta 1 mini.png')"></button>
+      </a>
+      <p>Gaveta 1</p>
+    </div>
+    <div id="show_gv2" style="margin-left: 10px; margin-top: 0px">
+      <a href="/usuarios/compGaveta2">
+        <button id="btn_gv2" class="imagem_gaveta" style="background-image: url('../imgTools/Gaveta 2 mini.png')"></button>
+      </a>
+      <p>Gaveta 2</p>
+    </div>
+    <div id="show_gv3" style="margin-left: 10px; margin-top: 0px">
+      <a href="/usuarios/compGaveta3">
+        <button id="btn_gv3" class="imagem_gaveta" style="background-image: url('../imgTools/Gaveta 3 mini.png')"></button>
+      </a>
+      <p>Gaveta 3</p>
+    </div>
+    <div id="show_gv4" style="margin-left: 10px; margin-top: 0px">
+      <a href="/usuarios/compGaveta4">
+        <button id="btn_gv4" class="imagem_gaveta" style="background-image: url('../imgTools/Gaveta 4 mini.png')"></button>
+      </a>
+      <p>Gaveta 4</p>
+    </div>
+  </div>
+  <div class="page-composicao" style="margin-top: 20px">
+    <div id="show_gv5" style="margin-top: 0px">
+      <a href="/usuarios/compGaveta5">
+        <button id="btn_gv5" class="imagem_gaveta" style="background-image: url('../imgTools/Gaveta 5 mini.png')"></button>
+      </a>
+      <p>Gaveta 5</p>
+    </div>
+    <div id="show_gv6" style="margin-left: 10px; margin-top: 0px">
+      <a href="/usuarios/compGaveta6">
+        <button id="btn_gv6" class="imagem_gaveta" style="background-image: url('../imgTools/Gaveta 6 mini.png')"></button>
+      </a>
+      <p>Gaveta 6</p>
+    </div>
+    <div id="show_gv7" style="margin-left: 10px; margin-top: 0px">
+      <a href="/usuarios/compGaveta7">
+        <button id="btn_gv7" class="imagem_gaveta" style="background-image: url('../imgTools/Gaveta 7 mini.png')"></button>
+      </a>
+      <p>Gaveta 7</p>
+    </div>
+    <div id="show_gv8" style="margin-left: 10px; margin-top: 0px">
+      <a href="/usuarios/compGaveta8">
+        <button id="btn_gv8" class="imagem_gaveta" style="background-image: url('../imgTools/Gaveta 8 mini.png')"></button>
+      </a>
+      <p>Gaveta 8</p>
+    </div>
+  </div>
+</body>
+
+<script  src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect();
+
+    //Verifica permissão de acesso às gavetas e carrega estados iniciais das gavetas (com botões ocultos)
+    var acessoGavetas = [{{usuario.gv1}}, {{usuario.gv2}}, {{usuario.gv3}}, {{usuario.gv4}}, {{usuario.gv5}}, {{usuario.gv6}}, {{usuario.gv7}}, {{usuario.gv8}}]
+    for (var i=0; i<8; i++){
+      if (acessoGavetas[i]==0){
+        document.getElementById('btn_gv'+(i+1)).style="background-image: url('../imgTools/gaveta bloqueada 2.svg')";
+        document.getElementById('btn_gv'+(i+1)).disabled=true;
+      }
+      else{
+        document.getElementById('btn_gv'+(i+1)).style="background-image: url('../imgTools/Gaveta " + (i+1) + " mini.png')";
+      }
+    }
+</script>
+
+<foot>
+  <div class="footer">
+    <a href="/usuarios/main"><button class="btn_return"></button></a>
+  </div>
+</foot>
+</html>

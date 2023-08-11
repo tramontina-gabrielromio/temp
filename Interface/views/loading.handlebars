@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/grafico/login.css">
+    <link rel="stylesheet" href="/grafico/global.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/dcode.css">
+    <link rel="stylesheet" href="keyboard/Keyboard.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Smart Manager 4.0 - Organizador Inteligente Tramontina</title>
+  </head>
+  <body style="background: black">
+      <div class="start" style="margin-top: 28vh">
+        <div class="column">
+          <div class="row">
+            <div id="logo_loading" class="logo_loading_1"></div>
+          </div>
+          <div class="row">
+            <div class="logo_smartsystem"></div>
+          </div>
+          <!--<div class="row">
+            <div class="loading_circle" style="margin-top: 5vh"></div>
+          </div>-->
+          <!--<div id="showLoading" class="row" style="visibility:hidden">
+            <div class="loading-box" style="margin-top: 10vh">
+              <div class="loader"></div>
+            </div>
+          </div>-->
+        </div>
+      </div>
+      <a href="/" style="display:none"><button id="btn_home"></button></a>
+  </body>
+  <script  src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect();
+    contLoading = 1;
+
+    //setTimeout('showLoading()', 4400)
+    //function showLoading(){
+    //  document.getElementById("showLoading").style = "visibility:visible"
+    //}
+
+    verificaStatusRedesNeurais()
+    function verificaStatusRedesNeurais(){
+      socket.emit('statusRedesNeurais')
+      t=setTimeout('verificaStatusRedesNeurais()', 1000);
+    }
+
+    setTimeout('transicaoLoading()', 2000)
+    function transicaoLoading(){
+      document.getElementById("logo_loading").className = "logo_loading_" + contLoading
+      contLoading = contLoading + 1
+      if (contLoading>3){
+        contLoading = 1
+      }
+      t=setTimeout('transicaoLoading()', 500);
+    }
+
+    socket.on('redesNeuraisCarregadas', function(data){
+      if(data==1)
+        document.getElementById("btn_home").click();
+    })
+  </script>
+</html>

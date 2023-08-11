@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/grafico/user.css">
+  </head>
+  <body>
+    <div class="bg-confirmacao">
+      <div class="janela-systemoptions">
+        <div class="contents" style="margin-top: 20px">
+          <!--<div class="question" style="margin-left: 30px"></div>-->
+          <div style="margin-left: 20px">
+            <p style="width: 520px">Iniciar o sistema sem carregar as redes neurais</p>
+          </div>
+        </div>
+        <div class="contents" style="margin-top: 0px; margin-left: 190px">
+          <a href="/usuarios"><button class="btns">
+            <p>Confirmar</p>
+          </button></a>
+        </div>
+        <div class="contents" style="margin-top: 20px">
+          <div style="margin-left: 20px">
+            <p style="width: 520px">Iniciar o sistema como usuário técnico Tramontina</p>
+          </div>
+        </div>
+        <div class="contents" style="margin-top: 0px; margin-left: 190px">
+          <a href="/usuarios/login/TecTramontina"><button class="btns">
+            <p>Confirmar</p>
+          </button></a>
+        </div>
+        <div class="contents" style="margin-top: 20px">
+          <div style="margin-left: 20px">
+            <p style="width: 520px">Restaurar o sistema original de fábrica</p>
+          </div>
+        </div>
+        <div class="contents" style="margin-top: 0px; margin-left: 190px">
+          <button class="btns" onclick='auxConfirmaRestauracao()'>
+            <p>Confirmar</p>
+          </button>
+        </div>
+        <div class="contents" style="margin-top: 52px; margin-right: 9px">
+          <a href="/"><button class="btns">
+            <p>Cancelar</p>
+          </button></a>
+        </div>
+      </div>
+    </div>
+
+    <dialog id="dialogConfirmaRestauracao" style="background: none; border: transparent">
+      <form method="dialog">
+        <div class="janela-confirmaRestauracao">
+          <div class="contents" style="margin-top: 40px; margin-left: 30px">
+            <div class="atencao"  style="margin-top: 20px"></div>
+            <p style="width: 520px">Tem certeza de que deseja restaurar o sistema?</p>
+          </div>
+          <div class="contents" style="margin-top: 30px; margin-left: 180px">
+            <button class="btns" onclick="confirmaRestauracao()">
+              <p>Confirmar</p>
+            </button>
+            <button class="btns" onclick="fechaDialogRestauracao()">
+              <p>Cancelar</p>
+            </button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect();
+
+      function auxConfirmaRestauracao(){
+        document.getElementById('dialogConfirmaRestauracao').showModal();
+      }
+
+      function confirmaRestauracao(){
+        socket.emit('restauraSistema')
+        window.location = "/restaurar";
+      }
+
+      function fechaDialogRestauracao(){
+        document.getElementById('dialogConfirmaRestauracao').close();
+      }
+    </script>
+  </body>
+  <foot>
+  </foot>
+</html>

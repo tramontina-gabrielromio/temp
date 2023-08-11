@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/grafico/admin.css">
+    <div class="head-left">
+      <a href="/usuarios/main"><button class="btn_home"></button></a>
+    </div>
+    <div class="head-right">
+      <a href="/usuarios/teladesligar"><button class="btn_shutdown"></button></a>
+    </div>
+</head>
+<body>
+    <div class="title">Conexão wifi</div>
+    <div class="search-table2">
+      <div class="first-column">
+        <div class="options">
+          <div id='frameTabela1' style="display:none">
+            <div class="scroll" style="height: 530px; width: 585px">
+              <div id='Tabela1'>
+                <div class="conexaoAtual">
+                  {{#each network}}
+                  <div class="wifi_{{signal_level}}" style="margin-top: 60px; height: 90px; width: 90px"></div>
+                  <div style="margin-top: 20px; font-size:25px">
+                    <p>{{ssid}}</p>
+                  </div>
+                  <div style="margin-top: -10px; font-size:20px">
+                    <p>conectado</p>
+                  </div>
+                  <div style="height: 50px">
+                    <p id="enderecoIP" style="margin-top: 10px; font-size:25px"></p>
+                  </div>
+                  <div style="margin-top: 10px; font-size:25px; flex-direction: row; display: flex">
+                    <div class="cadeado"></div>
+                    {{#if security}}
+                      <p>{{security}}</p>
+                    {{else}}
+                      <p>Nenhum</p>
+                    {{/if}}
+                  </div>
+                  <div style="margin-top: 10px; font-size:25px; flex-direction: row; display: flex">
+                    <div class="antena"></div>
+                    <p>{{frequency}} GHz</p>
+                  </div>
+                  {{/each}}
+                  <div style="margin-top:20px">
+                    <button id="disconnectSubmit" type="submit" class="btns" onclick="disconnect()">
+                      <p>Desconectar</p>
+                    </button>
+                    <div id="disconnectLoading" class="btns" style="display:none">
+                      <div class='c_loader'></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id='frameTabela2' style="display:none">
+            <div class="scroll" style="height: 410px; width: 585px">
+              <table id='Tabela2' style="margin-top: 2px; margin-left: 2px">
+                {{#each network}}
+                  <tr style="height:35px">
+                    <td style="width: 70%; border-right: none">{{ssid}}</td>
+                    <td style="display:none">{{security}}</td>
+                    {{#if security}}
+                      <td style="width: 10%; border-left: none; text-align: center">
+                        <div class="wifi_cadeado_{{signal_level}}" style="height: 45px; width: 45px"></div>
+                      </td>
+                    {{else}}
+                      <td style="width: 10%; border-left: none; text-align: center">
+                        <div class="wifi_{{signal_level}}"></div>
+                      </td>
+                    {{/if}}
+                  </tr>
+                {{else}}
+                  <h4 style="color:black" align="center">Nenhuma rede encontrada</h4>
+                {{/each}}
+              </table>
+            </div>
+            <div class="frameReload">
+              <button onclick="reload()" class="btns_reload"><p>Atualizar</p>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="enderecoMAC" align="right" style="color:#FAEFC0">MAC: {{mac}}</div>
+      </div>
+      <div id="wifiConnect" class="second-column" style="visibility:hidden">
+        <div class='enterData'>
+          <div style="align: center">
+            <div id="errorConnect" class="password-wrong" style="display:none"></div>
+            <div style="margin-top: 20px">
+              <p>SSID:</p>
+              <div class="search-input small" style="opacity:0.5">
+                <input id="boxSsid" style="pointer-events: none; text-align: center; font-size: 22px"/>
+              </div>
+            </div>
+            <div id="insertPassword">
+              <p>Senha:</p>
+              <div class="search-input small">
+                <input id="boxPassword" spellcheck="false" class="use-keyboard-input" type="password" name="senha" style="text-align: center"/>
+              </div>
+              <div class="show-password">
+                <button class="checkbox" onclick="showPassword()">
+                  <div id="check-password"></div>
+                </button>
+                <p>Mostrar senha</p>
+              </div>
+            </div>
+            <div style="margin-top:20px; margin-left: 65px">
+              <button id="connectSubmit" type="submit" class="btns" onclick="connect()" style="display:visible">
+                <p>Conectar</p>
+              </button>
+              <div id="connectLoading" class="btns" style="display:none">
+                <div class='c_loader'></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect();
+      var tabela = document.getElementById("Tabela2");
+      var linhas = tabela.getElementsByTagName("tr");
+      var senhaOculta = 1;
+      document.getElementById("errorConnect").value = "";
+
+      //document.getElementById("boxPassword").type = "password";
+
+      if({{conectado}}){
+        document.getElementById("frameTabela1").style = "display:visible";
+        document.getElementById("frameTabela2").style = "display:none";
+      }
+      else{
+        document.getElementById("frameTabela1").style = "display:none";
+        document.getElementById("frameTabela2").style = "display:visible";
+      }
+
+      //document.getElementById("insertPassword").style = "visibility:hidden";
+
+      for(var i = 0; i < linhas.length; i++){
+        var linha = linhas[i];
+        linha.addEventListener("click", function(){
+          //Adicionar ao atual
+          selLinha(this, false); //Selecione apenas um
+          //selLinha(this, true); //Selecione quantos quiser
+        });
+      }
+
+      /**
+      Caso passe true, você pode selecionar multiplas linhas.
+      Caso passe false, você só pode selecionar uma linha por vez.
+      **/
+      function selLinha(linha, multiplos){
+        if(!multiplos){
+          var linhas = linha.parentElement.getElementsByTagName("tr");
+          for(var i = 0; i < linhas.length; i++){
+            var linha_ = linhas[i];
+            linha_.classList.remove("selecionado");
+          }
+        }
+        linha.classList.toggle("selecionado");
+        var selecionado = tabela.getElementsByClassName("selecionado")[0];
+        selecionado = selecionado.getElementsByTagName("td");
+        document.getElementById("boxPassword").type = "password";
+        senhaOculta=1;
+        document.getElementById("wifiConnect").style = "visibility:visible";
+        document.getElementById("boxSsid").value = selecionado[0].innerHTML;
+        document.getElementById("boxPassword").value = "";
+        document.getElementById("check-password").className = "";
+        document.getElementById("errorConnect").style = "display:none";
+        if ((selecionado[1].innerHTML)==''){
+          document.getElementById("insertPassword").style = "visibility:hidden";
+        }
+        else{
+          document.getElementById("insertPassword").style = "visibility:visible";
+        }
+      }
+
+      function connect(){
+        document.getElementById("connectSubmit").style = "display:none";
+        document.getElementById("connectLoading").style = "display:visible";
+        socket.emit('connectWifi', document.getElementById("boxSsid").value, document.getElementById("boxPassword").value)
+      }
+
+      function disconnect(){
+        document.getElementById("disconnectSubmit").style = "display:none";
+        document.getElementById("disconnectLoading").style = "display:visible";
+        socket.emit('disconnectWifi')
+      }
+
+      function reload(){
+        location.reload();
+      }
+
+      function showPassword(){
+        const end = document.getElementById("boxPassword").value.length;
+        if (senhaOculta==1){
+          document.getElementById("boxPassword").type = "";
+          senhaOculta=0;
+          document.getElementById("boxPassword").focus();
+          document.getElementById("boxPassword").setSelectionRange(end,end);
+          document.getElementById("check-password").className = "selected";
+        }
+        else{
+          document.getElementById("boxPassword").type = "password";
+          senhaOculta=1;
+          document.getElementById("boxPassword").focus();
+          document.getElementById("boxPassword").setSelectionRange(end,end);
+          document.getElementById("check-password").className = "";
+        }
+      }
+      verificaIP()
+      function verificaIP(){
+        socket.emit('verificaIP')
+      }
+
+      socket.on('resultadoConexao', function(data, codError){
+        if(data==1){ //Recarrega a página
+          location.reload();
+        }
+        else if (codError==0){
+          document.getElementById("connectSubmit").style = "display:visible";
+          document.getElementById("connectLoading").style = "display:none";
+          document.getElementById("errorConnect").style = "display:visible";
+          document.getElementById("errorConnect").innerHTML = "Senha inválida";
+        }
+        else{
+          document.getElementById("connectSubmit").style = "display:visible";
+          document.getElementById("connectLoading").style = "display:none";
+          document.getElementById("errorConnect").style = "display:visible";
+          document.getElementById("errorConnect").innerHTML = "Erro ao estabelecer a conexão";
+        }
+      })
+
+      socket.on('retornaIP', function(enderecoIP){
+        document.getElementById("enderecoIP").innerHTML = "IP: " + enderecoIP;
+      })
+
+      socket.on('Desconectado', function(){
+        location.reload();
+      })
+    </script>
+</body>
+<foot>
+  <div class="footer">
+    <a href="/usuarios/main"><button class="btn_return"></button></a>
+  </div>
+</foot>
